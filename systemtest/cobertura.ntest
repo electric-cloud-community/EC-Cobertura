@@ -1,0 +1,30 @@
+# -*-Perl-*-
+
+# Cobertura.ntest -
+#
+# Exercise basic components of EC-Cobertura plugin
+#
+# Copyright (c) 2005-2010 Electric Cloud, Inc.
+# All rights reserved
+
+use strict;
+use warnings;
+use ECTest;
+
+require "$::gTestFileDir/cobertura-common.ntest";
+
+# read in setup and tests that are common to all EC-Cobertura plugin archives
+# system tests
+
+
+ntest "check-runCobertura-present", {}, sub {
+    # Check that the plugin contains required components
+    my $xpath = $::N->getSteps("$::gPlugin_name",'RunCobertura');
+    assertOK($xpath,'get steps');
+    assertEq('createCommandLine', $xpath->findvalue("//step[1]/stepName"), 'step 1: createCommandLine');
+    assertEq('runInstrumentCommand', $xpath->findvalue("//step[2]/stepName"), 'step 2: runInstrumentCommand');
+    assertEq('runTestCommand', $xpath->findvalue("//step[3]/stepName"), 'step 3: runTestCommand');
+    assertEq('runCheckCommand', $xpath->findvalue("//step[4]/stepName"), 'step 2: runCheckCommand');
+    assertEq('runReportCommand', $xpath->findvalue("//step[5]/stepName"), 'step 2: runReportCommand');
+
+};

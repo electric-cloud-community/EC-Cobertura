@@ -1,0 +1,160 @@
+<editor>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#runCobertura</help>
+    <formElement>
+        <type>entry</type>
+        <label>Cobertura's location:</label>
+        <property>CoberturaPath</property>
+        <required>1</required>
+        <documentation>Directory where Cobertura binaries are located.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Path to java:</label>
+        <property>JavaPath</property>
+        <required>0</required>
+        <documentation>Path where java bin is located.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Classes:</label>
+        <property>Classes</property>
+        <required>1</required>
+        <documentation>Class files to be analyzed or a root directory containing class files.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Instrumented classes's directory:</label>
+        <property>Destination</property>
+        <required>0</required>
+        <documentation>Path where the instrumented classes will be stored.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Datafile:</label>
+        <property>Datafile</property>
+        <required>0</required>
+        <value>cobertura.ser</value>
+        <documentation>Specify the name of the file to use for storing the metadata about your classes. Example: C:\TestCoverage\cobertura.ser</documentation>
+    </formElement>        
+    <formElement>
+        <type>entry</type>
+        <label>Base Directory:</label>
+        <property>BaseDir</property>
+        <required>0</required>
+        <documentation>Specify the base directory containing the classes you want to instrument.</documentation>
+    </formElement>
+    <formElement>
+        <type>textarea</type>
+        <label>ClassPath Directories:</label>
+        <property>ClassPath</property>
+        <required>0</required>
+        <documentation>Additional classpath to add when running the test.</documentation>
+    </formElement>        
+    <formElement>
+        <type>textarea</type>
+        <label>Test Command:</label>
+        <property>TestCmd</property>
+        <required>1</required>
+        <documentation>Basically the same commandline you always run to execute the tests.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Report Folder:</label>
+        <property>ReportFolder</property>
+        <required>0</required>
+        <documentation>Specify the output directory for the report.</documentation>
+    </formElement>
+    <formElement>
+        <type>select</type>
+        <label>Report format:</label>
+        <property>Format</property>
+        <required>1</required>
+        <documentation>The type of report you want to generate. either a xml or html</documentation>
+        <option><name>XML</name><value>xml</value></option>
+        <option><name>HTML</name><value>html</value></option>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Source Directory:</label>
+        <property>SourceDir</property>
+        <required>0</required>
+        <documentation>Directory where sources are stored (src folder)</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Minimum branch coverage per class:</label>
+        <value>70</value>
+        <property>Branch</property>
+        <required>0</required>
+        <documentation>Specify the minimum acceptable branch coverage rate needed by each class. This should be an integer value between 0 and 100.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Minimum line Coverage per class:</label>
+        <value>70</value>
+        <property>Line</property>
+        <required>0</required>
+        <documentation>Specify the minimum acceptable line coverage rate needed by each class. This should be an integer value between 0 and 100.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Minimum branch coverage per package:</label>
+        <value>70</value>
+        <property>PackageBranch</property>
+        <required>0</required>
+        <documentation>Specify the minimum acceptable average branch coverage rate needed by each package. This should be an integer value between 0 and 100.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Minimum line coverage per package:</label>
+        <value>70</value>
+        <property>PackageLine</property>
+        <required>0</required>
+        <documentation>Specify the minimum acceptable average line coverage rate needed by each package. This should be an integer value between 0 and 100.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Minimum Total Branch Coverage:</label>
+        <value>70</value>
+        <property>TotalBranch</property>
+        <required>0</required>
+        <documentation>Specify the minimum acceptable average branch coverage rate needed by the project as a whole. This should be an integer value between 0 and 100.</documentation>
+    </formElement>    
+    <formElement>
+        <type>entry</type>
+        <label>Minimum Total Line Coverage:</label>
+        <value>70</value>
+        <property>TotalLine</property>
+        <required>0</required>
+        <documentation>Specify the minimum acceptable average line coverage rate needed by the project as a whole. This should be an integer value between 0 and 100.</documentation>
+    </formElement>
+    <formElement>
+        <type>textarea</type>
+        <label>Instrument additional commands:</label>
+        <property>InstrumentCommands</property>
+        <required>0</required>
+        <documentation>Additional commands for cobertura-instrument.</documentation>
+    </formElement>
+    <formElement>
+        <type>textarea</type>
+        <label>Report additional commands:</label>
+        <property>ReportCommands</property>
+        <required>0</required>
+        <documentation>Additional commands for cobertura-report.</documentation>
+    </formElement>
+    <formElement>
+        <type>textarea</type>
+        <label>Check coverage additional commands:</label>
+        <property>CheckCommands</property>
+        <required>0</required>
+        <documentation>Additional commands for cobertura-check.</documentation>
+    </formElement>      
+    <formElement>
+        <type>entry</type>
+        <label>Working directory:</label>
+        <property>WorkingDir</property>
+        <required>0</required>
+        <value></value>
+        <documentation>Working directory, blank will assume default job workspace root.</documentation>
+    </formElement>
+</editor>

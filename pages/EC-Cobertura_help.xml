@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="generator"
+          content="HTML Tidy for Windows (vers 14 February 2006), see www.w3.org" />
+    <meta content="text/html; charset=us-ascii"
+          http-equiv="content-type" />
+
+    <title>ElectricFlow Plugin for Cobertura</title>
+    <link rel="stylesheet" href= "../../plugins/@PLUGIN_KEY@/pluginhelp.css" type="text/css" media= "screen" />
+</head>
+
+<body>
+    <div class="help">
+    <h1>Cobertura</h1>
+    <p>Plugin Version @PLUGIN_VERSION@</p>
+    <hr style="margin-left: -10px; margin-top: 10px; height: 1px; width: 100%; color: #5981BD;" noshade="noshade" />
+	<p>Revised on July 1, 2015</p>	<h1>Contents</h1>	<ul>	<li><p><a href="#overview">Overview</a></p></li>	<li><p><a href="#procedures">Plugin Procedures</a></p></li>	<li><p><a href="#example">Examples and Use Cases</a></p></li>	<li><p><a href="#rns">Release Notes</a></p></li>	</ul>		<h1 id="overview">Overview</h1>
+    <p>Cobertura is a free Java tool that calculates the percentage
+    of code accessed by tests. It can be used to identify which parts of your Java program
+    are lacking test coverage. It is based on jcoverage.</p>
+
+    <h3>Cobertura Features</h3>
+
+    <ul>
+        <li>Can be executed from Ant or from the command line.</li>
+
+        <li>Instruments Java bytecode after it has been
+        compiled.</li>
+
+        <li>Can generate reports in HTML or XML.</li>
+
+        <li>Shows the percentage of lines and branches covered for
+        each class, each package, and for the overall project.</li>
+
+        <li>Shows the McCabe cyclomatic code complexity of each
+        class and the average cyclomatic code complexity for each
+        package and the overall product.</li>
+
+        <li>Can sort HTML results by class name, percent of lines
+        covered, percent of branches covered, and more. Can sort in ascending or decending order.</li>
+    </ul>
+
+    <h2>Cobertura Links</h2>
+
+    <p>More information can be found at
+    <a href="http://cobertura.sourceforge.net/index.html">this
+    website</a>.</p>
+
+    <h2>ElectricFlow Integration to Cobertura</h2>
+
+    <p>The plugin calls the Cobertura tool's
+    "cobertura-instrument", "cobertura-check" and
+    "cobertura-report" from the command line and passes the
+    user-provided parameters in the parameter panel. This plugin allows you to use Cobertura to measure the code
+    coverage of your Java projects and also creates detailed reports
+    about the code coverage statistics. Moreover, you can easily detect errors with the ElectricFlow postp
+    feature.</p>
+
+    <h2>Integrated Version</h2>
+
+    <p>This plugin was developed and tested against version
+    1.9.4.1.</p>
+
+    <h1 id="procedures">Plugin Procedures</h1>
+
+    <p>
+        IMPORTANT: For all parameter descriptions below, required
+        parameters are shown in <span class='required'>bold
+        italics</span>.
+    </p>
+	<p>IMPORTANT: In the ElectricFlow UI, go to the Home page, open the Main Menu, and click <b>Admin</b> > <b>Plugins</b> to open the Plugin Manager.</p>
+    <div
+         id="runCobertura">
+        <a name='runCobertura'></a> 
+
+        <h3>Code Analysis</h3>
+
+        <p>The Code Analysis procedure creates and executes a
+        command line from the parameters you provide in the
+        procedure form.</p>
+
+        <table class="grid">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class='required'>Cobertura's location</td>
+
+                    <td>Directory where Cobertura binaries are
+                    located. (Required)</td>
+                </tr>
+
+                <tr>
+                    <td>Path to java</td>
+
+                    <td>Path where the Java bin is located. This parameter will be used for running the
+                    test. "java" will be used as default value.</td>
+                </tr>
+
+                <tr>
+                    <td class='required'>Classes</td>
+
+                    <td>Class files to be analyzed or a root
+                    directory containing class
+                    files. (Required)</td>
+                </tr>
+
+                <tr>
+                    <td>Instrumented classes' directory</td>
+
+                    <td>Path where the instrumented classes will be
+                    stored. (This is the command-line
+                    --destination option.)</td>
+                </tr>
+
+                <tr>
+                    <td>Datafile</td>
+
+                    <td>Specify the name of the file to use for
+                    storing the metadata about your classes. Example: C:\TestCoverage\cobertura.ser. (This
+                    is the command-line --datafile option). The default option is cobertura.ser.</td>
+                </tr>
+
+                <tr>
+                    <td>Base Directory</td>
+
+                    <td>Specify the base directory containing the
+                    classes you want to instrument. (This is the command-line --basedir
+                    option.)</td>
+                </tr>
+
+                <tr>
+                    <td>ClassPath Directories</td>
+
+                    <td>This option might be required when your application needs additional classes or packages when running the test.</td>
+                </tr>
+
+                <tr>
+                    <td class='required'>Test Command</td>
+
+                    <td>The command line used to execute the tests. (Required)</td>
+                </tr>
+
+                <tr>
+                    <td>Report Folder</td>
+
+                    <td>Specify the output directory for the
+                    report. Leave it blank to see the reports
+                    inside the workspace. (This is the command-line --destination
+                    option for the cobertura-report tool.)</td>
+                </tr>
+
+                <tr>
+                    <td class='required'>Report format</td>
+
+                    <td>The type of report you want to generate,
+                    either XML or HTML. This adds -xml or -html to the
+                    cobertura-report's command line.) (Required)</td>
+                </tr>
+
+                <tr>
+                    <td>Source Directory</td>
+
+                    <td>Directory where sources are stored
+                    (commonly the "src" folder). This parameter is important in order to see the coverage per class in the Cobertura report.</td>
+                </tr>
+
+                <tr>
+                    <td>Minimum branch coverage per class</td>
+
+                    <td>Specify the minimum acceptable branch
+                    coverage rate needed by each class. This should be an integer value between 0 and
+                    100.</td>
+                </tr>
+
+                <tr>
+                    <td>Minimum line Coverage per class</td>
+
+                    <td>Specify the minimum acceptable line
+                    coverage rate needed by each class. This should be an integer value between 0 and
+                    100.</td>
+                </tr>
+
+                <tr>
+                    <td>Minimum branch coverage per package</td>
+
+                    <td>Specify the minimum acceptable average
+                    branch coverage rate needed by each
+                    package. This should be an integer value between 0 and
+                    100.</td>
+                </tr>
+
+                <tr>
+                    <td>Minimum line coverage per package</td>
+
+                    <td>Specify the minimum acceptable average line
+                    coverage rate needed by each package. This should be an integer value between 0 and
+                    100.</td>
+                </tr>
+
+                <tr>
+                    <td>Minimum Total Branch Coverage</td>
+
+                    <td>Specify the minimum acceptable average
+                    branch coverage rate needed by the project as a
+                    whole. This should be an integer value between 0 and
+                    100.</td>
+                </tr>
+
+                <tr>
+                    <td>Minimum Total Line Coverage</td>
+
+                    <td>Specify the minimum acceptable average line
+                    coverage rate needed by the project as a
+                    whole. This should be an integer value between 0 and
+                    100.</td>
+                </tr>
+
+                <tr>
+                    <td>Instrument additional commands</td>
+
+                    <td>Additional commands for
+                    cobertura-instrument.</td>
+                </tr>
+
+                <tr>
+                    <td>Report additional commands</td>
+
+                    <td>Additional commands for
+                    cobertura-report.</td>
+                </tr>
+
+                <tr>
+                    <td>Check coverage additional commands</td>
+
+                    <td>Additional commands for
+                    cobertura-check.</td>
+                </tr>
+
+                <tr>
+                    <td>Working directory</td>
+
+                    <td>Working directory. If left blank, the default job workspace root is used.</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2>Parameter
+        Form</h2><img src="../../plugins/@PLUGIN_KEY@/images/Cobertura-1.png"
+             alt="screenshot" /> 
+    </div>
+    
+    <h1 id="example">Examples and Use Cases</h1>
+    
+
+            <p>This example uses this folder structure:<br/>
+                <img src="../../plugins/@PLUGIN_KEY@/images/Tree.png" alt="Tree" /> 
+            </p>
+            <p>This example uses a console application with a main class with the following code:<br/>
+                <img src="../../plugins/@PLUGIN_KEY@/images/Code.png" alt="JavaCode" /> 
+            </p>
+            <p>You would normally run the application from the command line using the following command: java -cp C:\TestCoverage\bin TestCoverage 9. The expected result is "9 It's less than 10".</p>
+            <p>To see the code coverage of your application, you create a step and fill in the parameter form as follows:<br/>
+                <img src="../../plugins/@PLUGIN_KEY@/images/Cobertura-1.png" alt="screenshot" /> 
+            </p>
+            <p>Then you run the procedure and see the result, such as the following HTML report:<br/>
+                <img src="../../plugins/@PLUGIN_KEY@/images/Cobertura-2.png" alt="screenshot" /> 
+            </p>
+            <p>
+                Following is an example code coverage report for the main class:<br/>
+                <img src="../../plugins/@PLUGIN_KEY@/images/Cobertura-5.png" alt="screenshot" />
+            </p>
+            <p>Following is an example XML report:<br/>
+                <img src="../../plugins/@PLUGIN_KEY@/images/Cobertura-4.png" alt="screenshot" />
+            </p>
+            <p>Following are example log files:<br/>
+                <img src="../../plugins/@PLUGIN_KEY@/images/Cobertura-3.png" alt="screenshot" />
+            </p>   
+    <h1 id="rns">Release Notes</h1>
+	<h2>@PLUGIN_KEY@-2.0.6</h2>    <ul>        <li>Renamed ElectricCommander to ElectricFlow.</li>    </ul>
+    <h2>@PLUGIN_KEY@-2.0.5</h2>
+
+    <ul>
+        <li>Made minor fixes.</li>
+    </ul>
+	
+    <h2>@PLUGIN_KEY@-2.0.4</h2>
+
+    <ul>
+        <li>Changed procedure names in the step picker section.</li>
+    </ul>
+    
+    <h2>@PLUGIN_KEY@-2.0.3</h2>
+
+    <ul>
+        <li>Made code improvements.</li>
+
+        <li>Added the ClassPath parameter.</li>
+
+        <li>Added XML parameter panels.</li>
+
+        <li>Updated the Help page.</li>
+    </ul>
+
+    <h2>@PLUGIN_KEY@-1.0.2</h2>
+
+    <ul>
+        <li>Fixed a classpath separator issue on Linux.</li>
+
+        <li>Added additional postp matchers.</li>
+
+        <li>Fixed a local resource issue.</li>
+
+        <li>Fixed a workspace issue.</li>
+
+        <li>Made miscellaneous code improvements.</li>
+
+        <li>Updated the Help page.</li>
+    </ul>
+
+    <h2>@PLUGIN_KEY@-1.0.1</h2>
+
+    <ul>
+        <li>Added postp support.</li>
+
+        <li>Added new fields: Source Code Location, Additional
+        Instrument Parameters, Additional Check Parameters,
+        Additional Report Parameters and Test Command Line.</li>
+
+        <li>Made miscellaneous code improvements.</li>
+    </ul>
+    </div>
+</body>
+</html>

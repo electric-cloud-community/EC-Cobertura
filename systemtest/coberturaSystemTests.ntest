@@ -1,0 +1,233 @@
+# -*-Perl-*-
+
+# coberturaSystemTests.ntest -
+#
+# ECCobertura
+#
+# Copyright (c) 2005-2010 Electric Cloud, Inc.
+# All rights reserved
+
+use strict;
+use warnings;
+use ECTest;
+use ECSelenium;
+
+ 
+# system tests
+
+
+require "$::gTestFileDir/cobertura-common.ntest";
+
+
+$::grunMavenCreated = 0;
+$::gProjectImported = 0;
+$::gtestProjectName = 'CoberturaTest';
+
+use constant {
+        LINUX => "linux",
+};
+
+my $outcome = '';
+
+sub importProject() {
+    assertOK($::N->import(
+             { file =>"$::gTestFileDir/coberturaSystemTests.xml",
+               path  => "/projects/CoberturaTest",
+               force => 1
+             } ), "import runCommandLine");
+   
+    assertOK($::N->getProcedure($::gtestProjectName, 'RunCobertura'),
+    'RunCobertura procedure doesn\'t exist');
+    
+    assertOK($::N->getProcedure($::gtestProjectName, 'RunCoberturaHTML'),
+    'RunCoberturaHTML procedure doesn\'t exist');
+    
+    assertOK($::N->getProcedure($::gtestProjectName, 'RunCoberturaXML'),
+    'RunCoberturaXML procedure doesn\'t exist');
+    
+    $::gProjectImported = 1;
+}
+
+
+sub doSetup() {
+
+    if(! $::gProjectImported) {
+        importProject();
+    }
+
+   
+}
+ 
+ntest "RunCobertura", {}, sub {
+      
+      doSetup();
+      
+      # run test job
+     
+      my $xpath = $::N->runProcedure($::gtestProjectName, 
+              {procedureName => "RunCobertura",
+              pollInterval  => '1',
+              timeout => 600,
+                   actualParameter => [
+                  
+                  ]
+      });
+          
+       
+      # make sure it finished
+      my $jobId = 0;
+      my $status = '';
+      
+      assertOK($xpath, 'runProcedure has errors');
+      if ($xpath) {
+          $jobId  = $xpath->findvalue("//jobId");
+          $status = $xpath->findvalue("//status");
+          $outcome = $xpath->findvalue("//outcome");
+  
+          assertTrue($jobId && $jobId ne "",'valid job id');
+          assertEq('completed',$status,"job $jobId complete");
+  
+          #abort if job did not finish
+          if ($status ne 'completed') {
+              assertOK($::N->abortJob($jobId, {force => 1}));
+          }
+      }
+
+      # get the job details
+      $xpath = $::N->getJobDetails($jobId);
+      
+      #get the values of the command lines
+      my $InstrumentCommand = $xpath->findvalue("//property[propertyName='InstrumentCommand']/value");
+      my $TestCommand = $xpath->findvalue("//property[propertyName='TestCommand']/value");
+      my $CheckCommand = $xpath->findvalue("//property[propertyName='CheckCommand']/value");
+      my $ReportCommand = $xpath->findvalue("//property[propertyName='ReportCommand']/value");
+      
+      #assert command lines
+      if($^O eq "linux"){
+        assertEq($InstrumentCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-instrument.sh --datafile "cobertura.ser" --destination "C:\\TestCoverage\\instrumented" "C:\\TestCoverage\\bin"','The commandLine doesn\'t match expected output');
+        assertEq($TestCommand, 'java -cp "C:\\tools\\cobertura-1.9.4.1/cobertura.jar":"C:\\TestCoverage\\instrumented":C:\\TestCoverage\\bin -Dnet.sourceforge.cobertura.datafile="cobertura.ser" TestCoverage','The commandLine doesn\'t match expected output');
+        assertEq($CheckCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-check.sh --datafile "cobertura.ser" --line 70 --packagebranch 70 --packageline 70 --totalbranch 70 --totalline 70','The commandLine doesn\'t match expected output');
+        assertEq($ReportCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-report.sh --datafile "cobertura.ser" --destination "C:\\TestCoverage\\reports" --format html "C:\\TestCoverage\\src"','The commandLine doesn\'t match expected output');
+      }else{
+        assertEq($InstrumentCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-instrument.bat --datafile "cobertura.ser" --destination "C:\\TestCoverage\\instrumented" "C:\\TestCoverage\\bin"','The commandLine doesn\'t match expected output');
+        assertEq($TestCommand, 'java -cp "C:\\tools\\cobertura-1.9.4.1/cobertura.jar";"C:\\TestCoverage\\instrumented";C:\\TestCoverage\\bin -Dnet.sourceforge.cobertura.datafile="cobertura.ser" TestCoverage','The commandLine doesn\'t match expected output');
+        assertEq($CheckCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-check.bat --datafile "cobertura.ser" --line 70 --packagebranch 70 --packageline 70 --totalbranch 70 --totalline 70','The commandLine doesn\'t match expected output');
+        assertEq($ReportCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-report.bat --datafile "cobertura.ser" --destination "C:\\TestCoverage\\reports" --format html "C:\\TestCoverage\\src"','The commandLine doesn\'t match expected output');
+      }
+      
+      
+  };
+  
+ntest "RunCoberturaHTML", {}, sub {
+      
+      doSetup();
+      
+      # run test job
+     
+      my $xpath = $::N->runProcedure($::gtestProjectName, 
+              {procedureName => "RunCoberturaHTML",
+              pollInterval  => '1',
+              timeout => 600,
+                   actualParameter => [
+                  
+                  ]
+      });
+          
+       
+      # make sure it finished
+      my $jobId = 0;
+      my $status = '';
+      
+      assertOK($xpath, 'runProcedure has errors');
+      if ($xpath) {
+          $jobId  = $xpath->findvalue("//jobId");
+          $status = $xpath->findvalue("//status");
+          $outcome = $xpath->findvalue("//outcome");
+  
+          assertTrue($jobId && $jobId ne "",'valid job id');
+          assertEq('completed',$status,"job $jobId complete");
+  
+          #abort if job did not finish
+          if ($status ne 'completed') {
+              assertOK($::N->abortJob($jobId, {force => 1}));
+          }
+      }
+
+      # get the job details
+      $xpath = $::N->getJobDetails($jobId);
+   
+      #get the values of the command lines
+      my $InstrumentCommand = $xpath->findvalue("//property[propertyName='InstrumentCommand']/value");
+      my $TestCommand = $xpath->findvalue("//property[propertyName='TestCommand']/value");
+      my $CheckCommand = $xpath->findvalue("//property[propertyName='CheckCommand']/value");
+      my $ReportCommand = $xpath->findvalue("//property[propertyName='ReportCommand']/value");
+      
+      #assert command lines
+      if($^O eq "linux"){
+        assertEq($InstrumentCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-instrument.sh --datafile "cobertura.ser" --destination "C:\\TestCoverage\\instrumented" "C:\\TestCoverage\\bin"','The commandLine doesn\'t match expected output');
+        assertEq($TestCommand, 'java -cp "C:\\tools\\cobertura-1.9.4.1/cobertura.jar":"C:\\TestCoverage\\instrumented":C:\\TestCoverage\\bin -Dnet.sourceforge.cobertura.datafile="cobertura.ser" TestCoverage 11','The commandLine doesn\'t match expected output');
+        assertEq($CheckCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-check.sh --datafile "cobertura.ser" --line 70 --packagebranch 70 --packageline 70 --totalbranch 70 --totalline 70','The commandLine doesn\'t match expected output');
+      }else{
+        assertEq($InstrumentCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-instrument.bat --datafile "cobertura.ser" --destination "C:\\TestCoverage\\instrumented" "C:\\TestCoverage\\bin"','The commandLine doesn\'t match expected output');
+        assertEq($TestCommand, 'java -cp "C:\\tools\\cobertura-1.9.4.1/cobertura.jar";"C:\\TestCoverage\\instrumented";C:\\TestCoverage\\bin -Dnet.sourceforge.cobertura.datafile="cobertura.ser" TestCoverage 11','The commandLine doesn\'t match expected output');
+        assertEq($CheckCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-check.bat --datafile "cobertura.ser" --line 70 --packagebranch 70 --packageline 70 --totalbranch 70 --totalline 70','The commandLine doesn\'t match expected output');
+      }
+  };
+  
+ntest "RunCoberturaXML", {}, sub {
+  
+  doSetup();
+  
+  # run test job
+ 
+  my $xpath = $::N->runProcedure($::gtestProjectName, 
+          {procedureName => "RunCoberturaXML",
+          pollInterval  => '1',
+          timeout => 600,
+               actualParameter => [
+              
+              ]
+  });
+      
+   
+  # make sure it finished
+  my $jobId = 0;
+  my $status = '';
+  
+  assertOK($xpath, 'runProcedure has errors');
+  if ($xpath) {
+      $jobId  = $xpath->findvalue("//jobId");
+      $status = $xpath->findvalue("//status");
+      $outcome = $xpath->findvalue("//outcome");
+
+      assertTrue($jobId && $jobId ne "",'valid job id');
+      assertEq('completed',$status,"job $jobId complete");
+
+      #abort if job did not finish
+      if ($status ne 'completed') {
+          assertOK($::N->abortJob($jobId, {force => 1}));
+      }
+  }
+
+  # get the job details
+  $xpath = $::N->getJobDetails($jobId);
+  
+  #get the values of the command lines
+  my $InstrumentCommand = $xpath->findvalue("//property[propertyName='InstrumentCommand']/value");
+  my $TestCommand = $xpath->findvalue("//property[propertyName='TestCommand']/value");
+  my $CheckCommand = $xpath->findvalue("//property[propertyName='CheckCommand']/value");
+  my $ReportCommand = $xpath->findvalue("//property[propertyName='ReportCommand']/value");
+  
+  #assert command lines
+  if($^O eq "linux"){
+    assertEq($InstrumentCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-instrument.sh --datafile "C:\\TestCoverage\\cobertura.ser" --destination "C:\\TestCoverage\\instrumented" "C:\\TestCoverage\\bin"','The commandLine doesn\'t match expected output');
+    assertEq($TestCommand, 'java -cp "C:\\tools\\cobertura-1.9.4.1/cobertura.jar":"C:\\TestCoverage\\instrumented":C:\\TestCoverage\\bin -Dnet.sourceforge.cobertura.datafile="C:\\TestCoverage\\cobertura.ser" TestCoverage 9','The commandLine doesn\'t match expected output');
+    assertEq($CheckCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-check.sh --datafile "C:\\TestCoverage\\cobertura.ser" --line 70 --packagebranch 70 --packageline 70 --totalbranch 70 --totalline 70','The commandLine doesn\'t match expected output');
+    assertEq($ReportCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-report.sh --datafile "C:\\TestCoverage\\cobertura.ser" --destination "C:\\TestCoverage\\reports" --format xml "C:\\TestCoverage\\src"','The commandLine doesn\'t match expected output');
+  }else{
+    assertEq($InstrumentCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-instrument.bat --datafile "C:\\TestCoverage\\cobertura.ser" --destination "C:\\TestCoverage\\instrumented" "C:\\TestCoverage\\bin"','The commandLine doesn\'t match expected output');
+    assertEq($TestCommand, 'java -cp "C:\\tools\\cobertura-1.9.4.1/cobertura.jar";"C:\\TestCoverage\\instrumented";C:\\TestCoverage\\bin -Dnet.sourceforge.cobertura.datafile="C:\\TestCoverage\\cobertura.ser" TestCoverage 9','The commandLine doesn\'t match expected output');
+    assertEq($CheckCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-check.bat --datafile "C:\\TestCoverage\\cobertura.ser" --line 70 --packagebranch 70 --packageline 70 --totalbranch 70 --totalline 70','The commandLine doesn\'t match expected output');
+    assertEq($ReportCommand, 'C:\\tools\\cobertura-1.9.4.1/cobertura-report.bat --datafile "C:\\TestCoverage\\cobertura.ser" --destination "C:\\TestCoverage\\reports" --format xml "C:\\TestCoverage\\src"','The commandLine doesn\'t match expected output');
+  }
+};
