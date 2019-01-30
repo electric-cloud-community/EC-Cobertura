@@ -17,7 +17,16 @@
     <h1>Cobertura</h1>
     <p>Plugin Version @PLUGIN_VERSION@</p>
     <hr style="margin-left: -10px; margin-top: 10px; height: 1px; width: 100%; color: #5981BD;" noshade="noshade" />
-	<p>Revised on July 1, 2015</p>	<h1>Contents</h1>	<ul>	<li><p><a href="#overview">Overview</a></p></li>	<li><p><a href="#procedures">Plugin Procedures</a></p></li>	<li><p><a href="#example">Examples and Use Cases</a></p></li>	<li><p><a href="#rns">Release Notes</a></p></li>	</ul>		<h1 id="overview">Overview</h1>
+	<p>Revised on July 1, 2015</p>
+	<h1>Contents</h1>
+	<ul>
+	<li><p><a href="#overview">Overview</a></p></li>
+	<li><p><a href="#procedures">Plugin Procedures</a></p></li>
+	<li><p><a href="#example">Examples and Use Cases</a></p></li>
+	<li><p><a href="#rns">Release Notes</a></p></li>
+	</ul>
+	
+	<h1 id="overview">Overview</h1>
     <p>Cobertura is a free Java tool that calculates the percentage
     of code accessed by tests. It can be used to identify which parts of your Java program
     are lacking test coverage. It is based on jcoverage.</p>
@@ -284,9 +293,17 @@
             </p>
             <p>Following are example log files:<br/>
                 <img src="../../plugins/@PLUGIN_KEY@/images/Cobertura-3.png" alt="screenshot" />
-            </p>   
-    <h1 id="rns">Release Notes</h1>
-	<h2>@PLUGIN_KEY@-2.0.6</h2>    <ul>        <li>Renamed ElectricCommander to ElectricFlow.</li>    </ul>
+            </p>
+   
+            <h1 id="rns">Release Notes</h1>
+            <h2>@PLUGIN_KEY@-2.0.7</h2>
+            <ul>
+                <li>Added metadata that is required for 9.0 release.</li>
+            </ul>
+	        <h2>@PLUGIN_KEY@-2.0.6</h2>
+            <ul>
+                <li>Renamed ElectricCommander to ElectricFlow.</li>
+            </ul>
     <h2>@PLUGIN_KEY@-2.0.5</h2>
 
     <ul>
